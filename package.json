@@ -1,0 +1,23 @@
+{
+  "author": "Aleksei Arro",
+  "description": "Here I practice in making of advanced Gulp.js configuration",
+  "devDependencies": {
+    "gulp": "4.0.2",
+    "gulp-stylus": "2.7.0"
+  },
+  "keywords": [
+    "gulp",
+    "node"
+  ],
+  "license": "ISC",
+  "main": "gulpfile.js",
+  "name": "learn-gulp",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yialo/learn-gulp.git"
+  },
+  "scripts": {
+    "start": "gulp styles"
+  },
+  "version": "1.0.0"
+}
