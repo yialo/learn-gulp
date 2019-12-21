@@ -7,9 +7,12 @@
   "description": "Here I practice in making of advanced Gulp.js configuration",
   "devDependencies": {
     "autoprefixer": "9.7.3",
+    "cross-env": "6.0.3",
     "gulp": "4.0.2",
     "gulp-debug": "4.0.0",
+    "gulp-if": "3.0.0",
     "gulp-postcss": "8.0.0",
+    "gulp-sourcemaps": "2.6.5",
     "gulp-stylus": "2.7.0"
   },
   "keywords": [
@@ -26,7 +29,9 @@
   "scripts": {
     "copy": "gulp copy --gulpfile ./gulp/index.js --cwd ./",
     "styles": "gulp styles --gulpfile ./gulp/index.js --cwd ./",
-    "start": "npm run styles"
+    "gulp": "npm run styles",
+    "dev": "cross-env NODE_ENV=development npm run gulp",
+    "build": "cross-env NODE_ENV=production npm run gulp"
   },
   "version": "1.0.0"
 }
