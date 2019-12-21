@@ -7,10 +7,15 @@
   "description": "Here I practice in making of advanced Gulp.js configuration",
   "devDependencies": {
     "autoprefixer": "9.7.3",
+    "cross-env": "6.0.3",
+    "del": "5.1.0",
     "gulp": "4.0.2",
     "gulp-debug": "4.0.0",
-    "gulp-stylus": "2.7.0",
-    "postcss": "7.0.25"
+    "gulp-if": "3.0.0",
+    "gulp-postcss": "8.0.0",
+    "gulp-rename": "2.0.0",
+    "gulp-sourcemaps": "2.6.5",
+    "gulp-stylus": "2.7.0"
   },
   "keywords": [
     "gulp",
@@ -24,9 +29,12 @@
     "url": "git+https://github.com/yialo/learn-gulp.git"
   },
   "scripts": {
+    "assemble": "gulp assemble --gulpfile ./gulp/index.js --cwd ./",
     "copy": "gulp copy --gulpfile ./gulp/index.js --cwd ./",
     "styles": "gulp styles --gulpfile ./gulp/index.js --cwd ./",
-    "start": "npm run styles"
+    "launch": "npm run assemble",
+    "dev": "cross-env NODE_ENV=development npm run launch",
+    "build": "cross-env NODE_ENV=production npm run launch"
   },
   "version": "1.0.0"
 }
