@@ -1,0 +1,7 @@
+{
+  "path": {
+    "entry": {
+      "stylus": "./src/stylus/index.styl"
+    }
+  }
+}
