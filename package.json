@@ -30,9 +30,8 @@
   },
   "scripts": {
     "assemble": "gulp assemble --gulpfile ./gulp/index.js --cwd ./",
-    "copy": "gulp copy --gulpfile ./gulp/index.js --cwd ./",
-    "styles": "gulp styles --gulpfile ./gulp/index.js --cwd ./",
-    "dev": "cross-env NODE_ENV=development npm run assemble",
+    "develop": "gulp develop --gulpfile ./gulp/index.js --cwd ./",
+    "dev": "cross-env NODE_ENV=development npm run develop",
     "build": "cross-env NODE_ENV=production npm run assemble"
   },
   "version": "1.0.0"
