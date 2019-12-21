@@ -10,4 +10,4 @@ module.exports = () => src(`src/static/**/*.*`)
       extname: file.extname,
     });
   })
-  .pipe(dest((file) => 'dist' + (file.extname === '.html' ? '/pages' : '')));
+  .pipe(dest((file) => 'public' + (file.extname === '.html' ? '/pages' : '/assets')));

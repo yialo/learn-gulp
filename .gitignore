@@ -13,3 +13,4 @@ bash.exe.stackdump
 
 # msc
 /dist/
+/public/

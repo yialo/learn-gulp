@@ -1,9 +1,16 @@
 {
   "author": "Aleksei Arro",
+  "browserslist": [
+    "last 5 versions",
+    "ie >= 11"
+  ],
   "description": "Here I practice in making of advanced Gulp.js configuration",
   "devDependencies": {
+    "autoprefixer": "9.7.3",
     "gulp": "4.0.2",
-    "gulp-stylus": "2.7.0"
+    "gulp-debug": "4.0.0",
+    "gulp-stylus": "2.7.0",
+    "postcss": "7.0.25"
   },
   "keywords": [
     "gulp",
@@ -19,7 +26,7 @@
   "scripts": {
     "copy": "gulp copy --gulpfile ./gulp/index.js --cwd ./",
     "styles": "gulp styles --gulpfile ./gulp/index.js --cwd ./",
-    "start": "npm run copy"
+    "start": "npm run styles"
   },
   "version": "1.0.0"
 }
