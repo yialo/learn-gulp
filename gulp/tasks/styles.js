@@ -10,7 +10,7 @@ const isProduction = (process.env.NODE_ENV === 'production');
 
 const postcssPlugins = [autoprefixer];
 
-module.exports = () => src(`./src/stylus/index.styl`)
+const styles = () => src(`./src/stylus/index.styl`)
   .pipe(debug({ title: 'sourcemaps:init' }))
   .pipe(gulpIf(
       !isProduction,
@@ -26,4 +26,8 @@ module.exports = () => src(`./src/stylus/index.styl`)
       sourcemaps.write('./')
   ))
   .pipe(debug({ title: 'dest' }))
-  .pipe(dest(`public/assets`));
+  .pipe(dest(`./public/assets`));
+
+styles.displayName = 'styles';
+
+module.exports = styles;
