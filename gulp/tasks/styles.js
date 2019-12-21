@@ -1,4 +1,4 @@
-const { src, dest } = require('gulp');
+const { src, dest, lastRun } = require('gulp');
 const debug = require('gulp-debug');
 const gulpIf = require('gulp-if');
 const stylus = require('gulp-stylus');
@@ -19,11 +19,13 @@ const styles = () => src(`./src/stylus/index.styl`)
   .pipe(debug({ title: 'Styles:Stylus' }))
   .pipe(stylus())
   .pipe(postcss(postcssPlugins))
+  .pipe(rename((path) => {
+    path.basename = 'styles';
+  }))
   .pipe(gulpIf(
-      !isProduction,
-      sourcemaps.write('./')
-  ))
-  .pipe(rename('styles.css'))
+    !isProduction,
+    sourcemaps.write('./')
+))
   .pipe(debug({ title: 'Styles:Dest' }))
   .pipe(dest(`./public/assets/css`));
 
