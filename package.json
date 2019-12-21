@@ -17,7 +17,9 @@
     "url": "git+https://github.com/yialo/learn-gulp.git"
   },
   "scripts": {
-    "start": "gulp styles --gulpfile ./gulp/gulpfile.js --cwd ./"
+    "copy": "gulp copy --gulpfile ./gulp/index.js --cwd ./",
+    "styles": "gulp styles --gulpfile ./gulp/index.js --cwd ./",
+    "start": "npm run copy"
   },
   "version": "1.0.0"
 }
