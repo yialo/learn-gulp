@@ -7,9 +7,5 @@ const styles = require('./tasks/styles');
 
 module.exports = {
   assemble,
-  clean,
-  copy,
   develop,
-  observe,
-  styles,
 };
