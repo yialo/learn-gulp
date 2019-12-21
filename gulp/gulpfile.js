@@ -1,8 +1,10 @@
 const { src, dest } = require('gulp');
 const stylus = require('gulp-stylus');
 
+const config = require('./config.json');
+
 const styles = () => (
-  src(`./src/stylus/index.styl`)
+  src(config.path.entry.stylus)
     .pipe(stylus())
     .pipe(dest(`./dist/app.css`))
 );

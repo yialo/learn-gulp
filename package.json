@@ -17,7 +17,7 @@
     "url": "git+https://github.com/yialo/learn-gulp.git"
   },
   "scripts": {
-    "start": "gulp styles"
+    "start": "gulp styles --gulpfile ./gulp/gulpfile.js --cwd ./"
   },
   "version": "1.0.0"
 }
