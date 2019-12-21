@@ -4,6 +4,7 @@ const gulpIf = require('gulp-if');
 const stylus = require('gulp-stylus');
 const sourcemaps = require('gulp-sourcemaps');
 const postcss = require('gulp-postcss');
+const rename = require('gulp-rename');
 const autoprefixer = require('autoprefixer');
 
 const isProduction = (process.env.NODE_ENV === 'production');
@@ -25,8 +26,10 @@ const styles = () => src(`./src/stylus/index.styl`)
       !isProduction,
       sourcemaps.write('./')
   ))
+  .pipe(debug({ title: 'rename' }))
+  .pipe(rename('styles.css'))
   .pipe(debug({ title: 'dest' }))
-  .pipe(dest(`./public/assets`));
+  .pipe(dest(`./public/assets/css`));
 
 styles.displayName = 'styles';
 
