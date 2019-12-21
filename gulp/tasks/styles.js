@@ -6,7 +6,7 @@ const autoprefixer = require('autoprefixer');
 
 const postcssPlugins = [autoprefixer];
 
-module.exports = () => src(`./src/stylus/**/*.styl`)
+module.exports = () => src(`./src/stylus/index.styl`)
   .pipe(debug({ title: 'styles' }))
   .pipe(stylus())
   .pipe(debug({ title: 'postcss' }))
