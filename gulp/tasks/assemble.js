@@ -6,7 +6,7 @@ const styles = require('./styles');
 
 const assemble = series(
     clean,
-    parallel(copy, styles)
+    parallel(copy, styles),
 );
 
 assemble.displayName = 'assemble';

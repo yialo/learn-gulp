@@ -1,4 +1,4 @@
-const { src, dest } = require('gulp');
+const { src, dest, series, watch } = require('gulp');
 const debug = require('gulp-debug');
 const gulpIf = require('gulp-if');
 const stylus = require('gulp-stylus');
@@ -7,30 +7,45 @@ const postcss = require('gulp-postcss');
 const rename = require('gulp-rename');
 const autoprefixer = require('autoprefixer');
 
-const isProduction = (process.env.NODE_ENV === 'production');
+const isProduction = require('../utils/is-production');
 
 const postcssPlugins = [autoprefixer];
 
-const styles = () => src(`./src/stylus/index.styl`)
-  .pipe(debug({ title: 'sourcemaps:init' }))
-  .pipe(gulpIf(
-      !isProduction,
-      sourcemaps.init()
-  ))
-  .pipe(debug({ title: 'styles' }))
-  .pipe(stylus())
-  .pipe(debug({ title: 'postcss' }))
-  .pipe(postcss(postcssPlugins))
-  .pipe(debug({ title: 'sourcemaps:write' }))
-  .pipe(gulpIf(
+const processStyles = () => (
+  src(`./src/stylus/index.styl`)
+    .pipe(gulpIf(
+        !isProduction,
+        sourcemaps.init()
+    ))
+    .pipe(debug({ title: 'Styles:Stylus' }))
+    .pipe(stylus())
+    .pipe(postcss(postcssPlugins))
+    .pipe(rename((path) => {
+      path.basename = 'styles';
+    }))
+    .pipe(gulpIf(
       !isProduction,
       sourcemaps.write('./')
   ))
-  .pipe(debug({ title: 'rename' }))
-  .pipe(rename('styles.css'))
-  .pipe(debug({ title: 'dest' }))
-  .pipe(dest(`./public/assets/css`));
+    .pipe(debug({ title: 'Styles:Dest' }))
+    .pipe(dest(`./public/assets/css`))
+);
 
-styles.displayName = 'styles';
+processStyles.displayName = 'styles: process Stylus files';
+
+const taskList = [processStyles];
+
+if (!isProduction) {
+  const appendWatcher = (done) => {
+    watch(`./src/stylus/**/*.styl`, series(processStyles));
+    done();
+  };
+
+  appendWatcher.displayName = 'styles: append watcher';
+
+  taskList.push(appendWatcher);
+}
+
+const styles = series(...taskList);
 
 module.exports = styles;

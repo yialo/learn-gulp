@@ -1,9 +1,7 @@
 const assemble = require('./tasks/assemble');
-const copy = require('./tasks/copy');
-const styles = require('./tasks/styles');
+const develop = require('./tasks/develop');
 
 module.exports = {
   assemble,
-  copy,
-  styles,
+  develop,
 };
