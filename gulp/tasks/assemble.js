@@ -8,8 +8,8 @@ const stylus = require('./stylus');
 const assemble = series(
     // clean,
     parallel(
-        copy,
-        // pureCss,
+        // copy,
+        pureCss,
         // stylus,
     ),
 );

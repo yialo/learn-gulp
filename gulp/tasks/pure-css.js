@@ -4,7 +4,6 @@ const cssnano = require('cssnano');
 const concat = require('gulp-concat');
 const debug = require('gulp-debug');
 const gulpIf = require('gulp-if');
-const isChanged = require('gulp-changed');
 const postcss = require('gulp-postcss');
 const remember = require('gulp-remember');
 const rename = require('gulp-rename');
@@ -30,8 +29,6 @@ const processCssFiles = () => (
         sourcemaps.write('./')
     ))
     .pipe(gulpIf(isProduction, rename('all.min.css')))
-    .pipe(debug({ title: 'CSS:IsChanged?' }))
-    .pipe(isChanged(DEST_PATH))
     .pipe(debug({ title: 'CSS:Dest' }))
     .pipe(dest(DEST_PATH))
 );
@@ -41,11 +38,12 @@ processCssFiles.displayName = 'pure css: process files';
 const taskList = [processCssFiles];
 
 if (!isProduction) {
+  const path = require('path');
+
   const appendWatcher = (done) => {
     watch(SRC_PATH, series(processCssFiles))
-      .on('all', (evtName, filepath) => {
-        // remember.forget('cssCache', );
-        console.log(filepath);
+      .on('unlink', (filepath) => {
+        remember.forget('cssCache', path.resolve(filepath));
       });
     done();
   };
