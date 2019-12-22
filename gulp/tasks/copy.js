@@ -22,7 +22,7 @@ if (!isProduction) {
   const path = require('path');
   const del = require('del');
 
-  const onFileDelete = (filepath) => {
+  const fileDeleteHandler = (evtName, filepath) => {
     let filePathInDest;
 
     const extname = path.extname(filepath);
@@ -31,8 +31,7 @@ if (!isProduction) {
       const basename = path.basename(filepath);
       filePathInDest = path.resolve(`./public/pages`, basename);
     } else {
-      const absolutePathOfSrc = path.resolve(`./src/static`);
-      const relativePathFromSrc = path.relative(absolutePathOfSrc, filepath);
+      const relativePathFromSrc = path.relative(`./src/static`, filepath);
       filePathInDest = path.resolve(`./public/assets`, relativePathFromSrc);
     }
 
@@ -40,8 +39,8 @@ if (!isProduction) {
   };
 
   const appendWatcher = (done) => {
-    const watcher = watch(`./src/static/**/*.*`, series(copyStaticAssets));
-    watcher.on('unlink', onFileDelete);
+    watch(`./src/static/**/*.*`, series(copyStaticAssets))
+      .on('all', fileDeleteHandler);
     done();
   };
 

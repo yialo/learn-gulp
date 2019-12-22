@@ -20,6 +20,9 @@ const processCssFiles = () => (
     .pipe(gulpIf(!isProduction, sourcemaps.init()))
     .pipe(debug({ title: 'CSS:PostProcessing' }))
     .pipe(postcss([autoprefixer]))
+    .pipe(debug({ title: 'CSS:Remember' }))
+    .pipe(remember('cssCache'))
+    .pipe(debug({ title: 'CSS:Concat' }))
     .pipe(concat('all.css'))
     .pipe(gulpIf(
         isProduction,
@@ -39,7 +42,11 @@ const taskList = [processCssFiles];
 
 if (!isProduction) {
   const appendWatcher = (done) => {
-    watch(SRC_PATH, series(processCssFiles));
+    watch(SRC_PATH, series(processCssFiles))
+      .on('all', (evtName, filepath) => {
+        // remember.forget('cssCache', );
+        console.log(filepath);
+      });
     done();
   };
 
