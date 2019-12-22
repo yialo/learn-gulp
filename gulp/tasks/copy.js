@@ -1,5 +1,3 @@
-const path = require('path');
-
 const { src, dest, lastRun, series, watch } = require('gulp');
 const debug = require('gulp-debug');
 
@@ -18,8 +16,27 @@ const taskList = [copyStaticAssets];
 const isProduction = require('../utils/is-production');
 
 if (!isProduction) {
+  const path = require('path');
+  const del = require('del');
+
+  const fileUnlinkHandler = (filepath) => {
+    const extname = path.extname(filepath);
+    let filePathInDest;
+
+    if (extname === '.html') {
+      const basename = path.basename(filepath);
+      filePathInDest = path.resolve(`./public/pages`, basename);
+    } else {
+      const relativePathFromSrc = path.relative(path.resolve(`./src/static`), filepath);
+      filePathInDest = path.resolve(`./public/assets`, relativePathFromSrc);
+    }
+
+    del.sync(filePathInDest);
+  };
+
   const appendWatcher = (done) => {
-    watch(`./src/static/**/*.*`, series(copyStaticAssets));
+    const watcher = watch(`./src/static/**/*.*`, series(copyStaticAssets));
+    watcher.on('unlink', fileUnlinkHandler);
     done();
   };
 
