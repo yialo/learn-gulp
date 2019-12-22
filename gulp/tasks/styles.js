@@ -9,6 +9,7 @@ const autoprefixer = require('autoprefixer');
 
 const isProduction = require('../utils/is-production');
 
+const DEST_PATH = `./public/assets/css`;
 const postcssPlugins = [autoprefixer];
 
 const processStyles = () => (
@@ -28,7 +29,7 @@ const processStyles = () => (
       sourcemaps.write('./')
   ))
     .pipe(debug({ title: 'Styles:Dest' }))
-    .pipe(dest(`./public/assets/css`))
+    .pipe(dest(DEST_PATH))
 );
 
 processStyles.displayName = 'styles: process Stylus files';
