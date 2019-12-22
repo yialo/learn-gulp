@@ -19,7 +19,7 @@ if (!isProduction) {
   const path = require('path');
   const del = require('del');
 
-  const fileUnlinkHandler = (filepath) => {
+  const onFileDelete = (filepath) => {
     const extname = path.extname(filepath);
     let filePathInDest;
 
@@ -36,7 +36,7 @@ if (!isProduction) {
 
   const appendWatcher = (done) => {
     const watcher = watch(`./src/static/**/*.*`, series(copyStaticAssets));
-    watcher.on('unlink', fileUnlinkHandler);
+    watcher.on('unlink', onFileDelete);
     done();
   };
 
