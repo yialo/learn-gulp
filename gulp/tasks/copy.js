@@ -50,6 +50,4 @@ if (!isProduction) {
   taskList.push(appendWatcher);
 }
 
-const copy = series(...taskList);
-
-module.exports = copy;
+module.exports = series(...taskList);

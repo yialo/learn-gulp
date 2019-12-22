@@ -1,12 +1,17 @@
 const { parallel, series } = require('gulp');
 
 // const clean = require('./clean');
-const copy = require('./copy');
-const styles = require('./styles');
+// const copy = require('./copy');
+const pureCss = require('./pure-css');
+// const stylus = require('./stylus');
 
 const assemble = series(
     // clean,
-    parallel(copy, styles),
+    parallel(
+        // copy,
+        pureCss,
+        // stylus,
+    ),
 );
 
 assemble.displayName = 'assemble';
