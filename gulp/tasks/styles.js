@@ -1,4 +1,4 @@
-const { src, dest } = require('gulp');
+const { src, dest, series, watch } = require('gulp');
 const debug = require('gulp-debug');
 const gulpIf = require('gulp-if');
 const stylus = require('gulp-stylus');
@@ -7,11 +7,11 @@ const postcss = require('gulp-postcss');
 const rename = require('gulp-rename');
 const autoprefixer = require('autoprefixer');
 
-const isProduction = (process.env.NODE_ENV === 'production');
+const isProduction = require('../utils/is-production');
 
 const postcssPlugins = [autoprefixer];
 
-const styles = () => (
+const processStyles = () => (
   src(`./src/stylus/index.styl`)
     .pipe(gulpIf(
         !isProduction,
@@ -31,6 +31,21 @@ const styles = () => (
     .pipe(dest(`./public/assets/css`))
 );
 
-styles.displayName = 'styles';
+processStyles.displayName = 'styles: process Stylus files';
+
+const taskList = [processStyles];
+
+if (!isProduction) {
+  const appendWatcher = (done) => {
+    watch(`./src/stylus/**/*.styl`, series(processStyles));
+    done();
+  };
+
+  appendWatcher.displayName = 'styles: append watcher';
+
+  taskList.push(appendWatcher);
+}
+
+const styles = series(...taskList);
 
 module.exports = styles;
