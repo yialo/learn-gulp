@@ -7,7 +7,7 @@ const defineDest = (file) => `./public` + (file.extname === `.html` ? `/pages` :
 const copyStaticAssets = () => (
   src(`./src/static/**/*.*`, { since: lastRun(copyStaticAssets) })
     .pipe(debug({ title: 'Copy:IsChanged?' }))
-    .pipe(isChanged(defineDest))
+    .pipe(isChanged(defineDest, { hasChanged: isChanged.compareContents }))
     .pipe(debug({ title: 'Copy:Dest' }))
     .pipe(dest(defineDest))
 );
