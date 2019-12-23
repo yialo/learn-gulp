@@ -5,7 +5,6 @@ const debug = require('gulp-debug');
 const gulpIf = require('gulp-if');
 const isChanged = require('gulp-changed');
 const postcss = require('gulp-postcss');
-const remember = require('gulp-remember');
 const rename = require('gulp-rename');
 const sourcemaps = require('gulp-sourcemaps');
 const stylusProcessor = require('gulp-stylus');
@@ -29,7 +28,7 @@ const processStylusFiles = () => (
       path.basename += '.min';
     })))
     .pipe(debug({ title: 'Stylus:IsChanged?' }))
-    .pipe(isChanged(DEST_PATH))
+    .pipe(isChanged(DEST_PATH, { hasChanged: isChanged.compareContents }))
     .pipe(debug({ title: 'Stylus:Dest' }))
     .pipe(dest(DEST_PATH))
 );
@@ -39,6 +38,8 @@ processStylusFiles.displayName = 'stylus: process files';
 const taskList = [processStylusFiles];
 
 if (!isProduction) {
+  const path = require('path');
+
   const appendWatcher = (done) => {
     watch(`./src/stylus/**/*.styl`, series(processStylusFiles));
     done();
