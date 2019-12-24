@@ -1,5 +1,6 @@
 const { src, dest, lastRun, series, watch } = require('gulp');
 const autoprefixer = require('autoprefixer');
+const cached = require('gulp-cached');
 const cssnano = require('cssnano');
 const concat = require('gulp-concat');
 const debug = require('gulp-debug');
@@ -16,6 +17,8 @@ const DEST_PATH = `./public/assets/css`;
 
 const processCssFiles = () => (
   src(SRC_PATH)
+    .pipe(debug({ title: 'CSS:CachedPlugin' }))
+    .pipe(cached('cssCache'))
     .pipe(gulpIf(!isProduction, sourcemaps.init()))
     .pipe(debug({ title: 'CSS:PostProcessing' }))
     .pipe(postcss([autoprefixer]))
