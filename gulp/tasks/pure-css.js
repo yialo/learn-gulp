@@ -41,8 +41,14 @@ processCssFiles.displayName = 'pure css: process files';
 const taskList = [processCssFiles];
 
 if (!isProduction) {
+  const path = require('path');
+
   const appendWatcher = (done) => {
-    watch(SRC_PATH, series(processCssFiles));
+    watch(SRC_PATH, series(processCssFiles))
+      .on('unlink', (filepath) => {
+        const fullpath = path.resolve(filepath);
+        delete cached.caches.cssCache[fullpath];
+      });
     done();
   };
 
