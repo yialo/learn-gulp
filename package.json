@@ -6,7 +6,7 @@
   ],
   "description": "Here I practice in making of advanced Gulp.js configuration",
   "devDependencies": {
-    "autoprefixer": "9.7.3",
+    "autoprefixer": "9.7.4",
     "cross-env": "6.0.3",
     "cssnano": "4.1.10",
     "del": "5.1.0",
