@@ -10,6 +10,4 @@ const serve = (done) => {
 
 const develop = series(assemble, serve);
 
-develop.displayName = 'develop';
-
 module.exports = develop;

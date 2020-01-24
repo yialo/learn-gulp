@@ -19,7 +19,8 @@
     "gulp-postcss": "8.0.0",
     "gulp-rename": "2.0.0",
     "gulp-sourcemaps": "2.6.5",
-    "gulp-stylus": "2.7.0"
+    "gulp-stylus": "2.7.0",
+    "nodemon": "2.0.2"
   },
   "keywords": [
     "gulp",
@@ -33,11 +34,15 @@
     "url": "git+https://github.com/yialo/learn-gulp.git"
   },
   "scripts": {
-    "copy": "gulp copy --gulpfile ./gulp/index.js --cwd ./",
-    "assemble": "gulp assemble --gulpfile ./gulp/index.js --cwd ./",
-    "develop": "gulp develop --gulpfile ./gulp/index.js --cwd ./",
+    "gulp": "gulp --gulpfile ./gulp/index.js --cwd ./",
+    "clean": "npm run gulp -- clean",
+    "copy": "npm run gulp -- copy",
+    "assemble": "npm run gulp -- assemble",
+    "develop": "npm run gulp -- develop",
     "dev": "cross-env NODE_ENV=development npm run develop",
-    "build": "cross-env NODE_ENV=production npm run assemble"
+    "build": "cross-env NODE_ENV=production npm run assemble",
+    "nodemon": "nodemon --config ./nodemon.json",
+    "start": "npm run nodemon -- develop"
   },
   "version": "1.0.0"
 }

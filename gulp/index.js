@@ -1,5 +1,5 @@
-const assemble = require('./tasks/assemble');
-const develop = require('./tasks/develop');
+const assemble = require('./tasks/assemble.js');
+const develop = require('./tasks/develop.js');
 
 module.exports = {
   assemble,
