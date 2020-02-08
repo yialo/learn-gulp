@@ -1,3 +1,5 @@
+'use strict';
+
 const { src, dest, lastRun, series, watch } = require('gulp');
 const autoprefixer = require('autoprefixer');
 const cached = require('gulp-cached');

@@ -1,3 +1,5 @@
+'use strict';
+
 const { src, dest, series, watch } = require('gulp');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');

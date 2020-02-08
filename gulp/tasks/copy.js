@@ -1,3 +1,5 @@
+'use strict';
+
 const { src, dest, lastRun, series, watch } = require('gulp');
 const debug = require('gulp-debug');
 const isChanged = require('gulp-changed');

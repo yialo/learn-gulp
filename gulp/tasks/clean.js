@@ -1,3 +1,5 @@
+'use strict';
+
 const del = require('del');
 
 const clean = () => del(`./public`);
