@@ -35,8 +35,6 @@
   },
   "scripts": {
     "gulp": "gulp --gulpfile ./gulp/index.js --cwd ./",
-    "clean": "npm run gulp -- clean",
-    "copy": "npm run gulp -- copy",
     "assemble": "npm run gulp -- assemble",
     "develop": "npm run gulp -- develop",
     "dev": "cross-env NODE_ENV=development npm run develop",
