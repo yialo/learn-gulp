@@ -1,22 +1,19 @@
 'use strict';
 
-const assemble = require('./tasks/assemble.js');
-const clean = require('./tasks/clean.js');
-const develop = require('./tasks/develop.js');
-const text = require('./tasks/text.js');
+const TASK_LIST = [
+  'assemble',
+  'clean',
+  'develop',
+  'stylus',
+  'text',
+];
 
-const gulp = require('gulp');
-const stylus = require('gulp-stylus');
+const getTask = (taskFileName) => require(`./tasks/${taskFileName}.js`);
 
-gulp.task('styles:styl', () => {
-  return gulp.src('./src/stylus/**/*.styl')
-  .pipe(stylus())
-  .pipe(gulp.dest('./public'));
-});
+const getTaskEnum = (taskList) => taskList
+  .reduce((result, taskName) => ({
+    ...result,
+    [taskName]: getTask(taskName),
+  }), {});
 
-module.exports = {
-  assemble,
-  clean,
-  develop,
-  text,
-};
+module.exports = getTaskEnum(TASK_LIST);

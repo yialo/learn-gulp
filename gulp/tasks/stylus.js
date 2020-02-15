@@ -11,27 +11,29 @@ const rename = require('gulp-rename');
 const sourcemaps = require('gulp-sourcemaps');
 const stylusProcessor = require('gulp-stylus');
 
-const isProduction = require('../utils/is-production');
+// const isProduction = require('../utils/is-production');
+const isProduction = true;
 
 const DEST_PATH = `./public/assets/css`;
 
 const processStylusFiles = () => (
   src(`./src/stylus/*.styl`)
-    .pipe(gulpIf(!isProduction, sourcemaps.init()))
-    .pipe(debug({ title: 'Stylus:Processor' }))
+    // .pipe(gulpIf(!isProduction, sourcemaps.init()))
+    .pipe(debug({ title: 'Stylus: from src - to preprocessor' }))
     .pipe(stylusProcessor())
+    .pipe(debug({ title: 'Stylus: from preprocessor - to postcss' }))
     .pipe(postcss([autoprefixer]))
-    .pipe(gulpIf(
-        isProduction,
-        postcss([cssnano]),
-        sourcemaps.write('./')
-    ))
-    .pipe(gulpIf(isProduction, rename((path) => {
-      path.basename += '.min';
-    })))
-    .pipe(debug({ title: 'Stylus:IsChanged?' }))
-    .pipe(isChanged(DEST_PATH, { hasChanged: isChanged.compareContents }))
-    .pipe(debug({ title: 'Stylus:Dest' }))
+    // .pipe(gulpIf(
+    //     isProduction,
+    //     postcss([cssnano]),
+    //     sourcemaps.write('./')
+    // ))
+    // .pipe(gulpIf(isProduction, rename((file) => {
+    //   file.basename += '.min';
+    // })))
+    // .pipe(debug({ title: 'Stylus:IsChanged?' }))
+    // .pipe(isChanged(DEST_PATH, { hasChanged: isChanged.compareContents }))
+    .pipe(debug({ title: 'Stylus: to dest' }))
     .pipe(dest(DEST_PATH))
 );
 
