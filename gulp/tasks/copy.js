@@ -8,25 +8,21 @@ const defineDest = (file) => `./public` + (file.extname === `.html` ? `/pages` :
 
 const copyStaticAssets = () => (
   src(`./src/static/**/*.*`, { since: lastRun(copyStaticAssets) })
-    .pipe(debug({ title: 'Copy:IsChanged?' }))
-    .pipe(isChanged(defineDest, { hasChanged: isChanged.compareContents }))
-    .pipe(debug({ title: 'Copy:Dest' }))
+    .pipe(debug({ title: 'Copy: from src' }))
+    // .pipe(isChanged(defineDest, { hasChanged: isChanged.compareContents }))
+    .pipe(debug({ title: 'Copy: to dest' }))
     .pipe(dest(defineDest))
 );
-
 copyStaticAssets.displayName = 'copy: move assets';
 
 const taskList = [copyStaticAssets];
-
 const isProduction = require('../utils/is-production');
-
 if (!isProduction) {
   const path = require('path');
   const del = require('del');
 
-  const fileDeleteHandler = (evtName, filepath) => {
+  const fileDeleteHandler = (_, filepath) => {
     let filePathInDest;
-
     const extname = path.extname(filepath);
 
     if (extname === '.html') {
@@ -45,7 +41,6 @@ if (!isProduction) {
       .on('all', fileDeleteHandler);
     done();
   };
-
   appendWatcher.displayName = 'copy: append watcher';
 
   taskList.push(appendWatcher);

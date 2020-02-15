@@ -19,12 +19,12 @@ const DEST_PATH = `./public/assets/css`;
 
 const processCssFiles = () => (
     src(SRC_PATH)
-    // .pipe(debug({ title: 'CSS:CachedPlugin' }))
+    .pipe(debug({ title: 'CSS: from src' }))
     // .pipe(cached('cssCache'))
     .pipe(gulpIf(!isProduction, sourcemaps.init()))
-    .pipe(debug({ title: 'CSS:PostProcessing' }))
+    .pipe(debug({ title: 'CSS: to postcss' }))
     .pipe(postcss([autoprefixer]))
-    .pipe(debug({ title: 'CSS:Concat' }))
+    .pipe(debug({ title: 'CSS: to concat' }))
     .pipe(concat('all.css'))
     .pipe(gulpIf(
         isProduction,
@@ -34,7 +34,7 @@ const processCssFiles = () => (
     .pipe(gulpIf(isProduction, rename('all.min.css')))
     // .pipe(debug({ title: 'CSS:IsChanged?' }))
     // .pipe(isChanged(DEST_PATH, { hasChanged: isChanged.compareContents }))
-    .pipe(debug({ title: 'CSS:Dest' }))
+    .pipe(debug({ title: 'CSS: to dest' }))
     .pipe(dest(DEST_PATH))
 );
 

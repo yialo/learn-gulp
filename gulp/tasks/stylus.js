@@ -3,6 +3,7 @@
 const { src, dest, series, watch } = require('gulp');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
+const concat = require('gulp-concat');
 const debug = require('gulp-debug');
 const gulpIf = require('gulp-if');
 const isChanged = require('gulp-changed');
@@ -11,23 +12,22 @@ const rename = require('gulp-rename');
 const sourcemaps = require('gulp-sourcemaps');
 const stylusProcessor = require('gulp-stylus');
 
-// const isProduction = require('../utils/is-production');
-const isProduction = true;
+const isProduction = require('../utils/is-production');
 
 const DEST_PATH = `./public/assets/css`;
 
 const processStylusFiles = () => (
   src(`./src/stylus/*.styl`)
-    // .pipe(gulpIf(!isProduction, sourcemaps.init()))
-    .pipe(debug({ title: 'Stylus: from src - to preprocessor' }))
+    .pipe(gulpIf(!isProduction, sourcemaps.init()))
+    .pipe(debug({ title: 'Stylus: to stylus' }))
     .pipe(stylusProcessor())
-    .pipe(debug({ title: 'Stylus: from preprocessor - to postcss' }))
+    .pipe(debug({ title: 'Stylus: to postcss' }))
     .pipe(postcss([autoprefixer]))
-    // .pipe(gulpIf(
-    //     isProduction,
-    //     postcss([cssnano]),
-    //     sourcemaps.write('./')
-    // ))
+    .pipe(gulpIf(
+        isProduction,
+        postcss([cssnano]),
+        sourcemaps.write('./')
+    ))
     // .pipe(gulpIf(isProduction, rename((file) => {
     //   file.basename += '.min';
     // })))

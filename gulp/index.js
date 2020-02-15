@@ -2,10 +2,7 @@
 
 const TASK_LIST = [
   'assemble',
-  'clean',
-  'develop',
-  'stylus',
-  'text',
+  // 'default',
 ];
 
 const getTask = (taskFileName) => require(`./tasks/${taskFileName}.js`);

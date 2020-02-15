@@ -10,6 +10,10 @@ const serve = (done) => {
   done();
 };
 
-const develop = series(assemble, serve);
+const taskList = [assemble];
 
-module.exports = develop;
+if (process.env.NODE_ENV === 'development') {
+  taskList.push(serve);
+}
+
+module.exports = series(...taskList);

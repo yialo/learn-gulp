@@ -35,12 +35,14 @@
   },
   "scripts": {
     "gulp": "gulp --gulpfile ./gulp/index.js --cwd ./",
-    "assemble": "npm run gulp -- assemble",
-    "develop": "npm run gulp -- develop",
-    "dev": "cross-env NODE_ENV=development npm run develop",
-    "build": "cross-env NODE_ENV=production npm run assemble",
+    "default": "npm run gulp -- default",
+    "dev": "cross-env NODE_ENV=development npm run default",
+    "build": "cross-env NODE_ENV=production npm run default",
     "nodemon": "nodemon --config ./nodemon.json",
-    "start": "npm run nodemon -- develop"
+    "nodemon:gulp": "npm run nodemon -- gulp",
+    "nodemon:dev": "npm run nodemon -- dev",
+    "nodemon:prod": "npm run nodemon -- build",
+    "start": "npm run nodemon:dev"
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
