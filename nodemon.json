@@ -1,0 +1,6 @@
+{
+  "exec": "npm run",
+  "ext": "js",
+  "verbose": true,
+  "watch": ["./gulp/"]
+}

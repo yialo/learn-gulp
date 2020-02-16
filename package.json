@@ -6,16 +6,21 @@
   ],
   "description": "Here I practice in making of advanced Gulp.js configuration",
   "devDependencies": {
-    "autoprefixer": "9.7.3",
-    "cross-env": "6.0.3",
+    "autoprefixer": "9.7.4",
+    "cross-env": "7.0.0",
+    "cssnano": "4.1.10",
     "del": "5.1.0",
     "gulp": "4.0.2",
+    "gulp-cached": "1.1.1",
+    "gulp-changed": "4.0.2",
+    "gulp-concat": "2.6.1",
     "gulp-debug": "4.0.0",
     "gulp-if": "3.0.0",
     "gulp-postcss": "8.0.0",
     "gulp-rename": "2.0.0",
     "gulp-sourcemaps": "2.6.5",
-    "gulp-stylus": "2.7.0"
+    "gulp-stylus": "2.7.0",
+    "nodemon": "2.0.2"
   },
   "keywords": [
     "gulp",
@@ -29,11 +34,15 @@
     "url": "git+https://github.com/yialo/learn-gulp.git"
   },
   "scripts": {
-    "copy": "gulp copy --gulpfile ./gulp/index.js --cwd ./",
-    "assemble": "gulp assemble --gulpfile ./gulp/index.js --cwd ./",
-    "develop": "gulp develop --gulpfile ./gulp/index.js --cwd ./",
-    "dev": "cross-env NODE_ENV=development npm run develop",
-    "build": "cross-env NODE_ENV=production npm run assemble"
+    "gulp": "gulp --gulpfile ./gulp/index.js --cwd ./",
+    "default": "npm run gulp -- default",
+    "dev": "cross-env NODE_ENV=development npm run default",
+    "build": "cross-env NODE_ENV=production npm run default",
+    "nodemon": "nodemon --config ./nodemon.json",
+    "nodemon:gulp": "npm run nodemon -- gulp",
+    "nodemon:dev": "npm run nodemon -- dev",
+    "nodemon:prod": "npm run nodemon -- build",
+    "start": "npm run nodemon:dev"
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }

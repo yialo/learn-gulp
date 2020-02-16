@@ -1,50 +1,62 @@
+/**
+ * NOTE:
+ * 1-to-1 transformations
+ * ======================
+ * It's good to use cache at the start of pipeline,
+ * and we have to use manual 'unlink' handler in chokidar watcher
+ * with sync file deletion and corresponding cache cleanup.
+ */
+
+'use strict';
+
 const { src, dest, lastRun, series, watch } = require('gulp');
+const cached = require('gulp-cached');
 const debug = require('gulp-debug');
 
-const defineDest = (file) => `./public` + (file.extname === `.html` ? `/pages` : `/assets`);
-
-const copyStaticAssets = () => (
-  src(`./src/static/**/*.*`, { since: lastRun(copyStaticAssets) })
-    .pipe(debug({ title: 'Copy:Dest' }))
-    .pipe(dest(defineDest))
+const getDest = ({ extname }) => (
+  `./public/` + (extname === `.html` ? `pages` : `assets`)
 );
 
+const copyStaticAssets = () => {
+  return src(`./src/static/**/*.*`)
+    .pipe(debug({ title: 'Copy: from src' }))
+    .pipe(cached('assetsCache'))
+    .pipe(debug({ title: 'Copy: to dest' }))
+    .pipe(dest(getDest));
+};
 copyStaticAssets.displayName = 'copy: move assets';
 
 const taskList = [copyStaticAssets];
-
 const isProduction = require('../utils/is-production');
-
 if (!isProduction) {
   const path = require('path');
   const del = require('del');
 
-  const fileUnlinkHandler = (filepath) => {
+  const fileDeleteHandler = (filepath) => {
+    let filepathInDest;
     const extname = path.extname(filepath);
-    let filePathInDest;
 
     if (extname === '.html') {
       const basename = path.basename(filepath);
-      filePathInDest = path.resolve(`./public/pages`, basename);
+      filepathInDest = path.resolve(`./public/pages`, basename);
     } else {
-      const relativePathFromSrc = path.relative(path.resolve(`./src/static`), filepath);
-      filePathInDest = path.resolve(`./public/assets`, relativePathFromSrc);
+      const relativePathFromSrc = path.relative(`./src/static`, filepath);
+      filepathInDest = path.resolve(`./public/assets`, relativePathFromSrc);
     }
 
-    del.sync(filePathInDest);
+    del.sync(filepathInDest);
+    const fullpath = path.resolve(filepath);
+    delete cached.caches.assetsCache[fullpath];
   };
 
   const appendWatcher = (done) => {
-    const watcher = watch(`./src/static/**/*.*`, series(copyStaticAssets));
-    watcher.on('unlink', fileUnlinkHandler);
+    watch(`./src/static/**/*.*`, series(copyStaticAssets))
+      .on('unlink', fileDeleteHandler);
     done();
   };
-
   appendWatcher.displayName = 'copy: append watcher';
 
   taskList.push(appendWatcher);
 }
 
-const copy = series(...taskList);
-
-module.exports = copy;
+module.exports = series(...taskList);

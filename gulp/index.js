@@ -1,7 +1,17 @@
-const assemble = require('./tasks/assemble');
-const develop = require('./tasks/develop');
+'use strict';
 
-module.exports = {
-  assemble,
-  develop,
-};
+const TASK_LIST = [
+  // 'clean',
+  'assemble',
+  // 'default',
+];
+
+const getTask = (taskFileName) => require(`./tasks/${taskFileName}.js`);
+
+const getTaskEnum = (taskList) => taskList
+  .reduce((result, taskName) => ({
+    ...result,
+    [taskName]: getTask(taskName),
+  }), {});
+
+module.exports = getTaskEnum(TASK_LIST);

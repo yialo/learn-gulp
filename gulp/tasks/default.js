@@ -1,3 +1,5 @@
+'use strict';
+
 const { series } = require('gulp');
 
 const assemble = require('./assemble');
@@ -8,8 +10,10 @@ const serve = (done) => {
   done();
 };
 
-const develop = series(assemble, serve);
+const taskList = [assemble];
 
-develop.displayName = 'develop';
+if (process.env.NODE_ENV === 'development') {
+  taskList.push(serve);
+}
 
-module.exports = develop;
+module.exports = series(...taskList);
