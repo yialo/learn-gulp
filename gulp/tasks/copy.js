@@ -1,6 +1,7 @@
 'use strict';
 
 const { src, dest, lastRun, series, watch } = require('gulp');
+const cached = require('gulp-cached');
 const debug = require('gulp-debug');
 const isChanged = require('gulp-changed');
 
@@ -8,15 +9,14 @@ const getDest = ({ extname }) => (
   `./public/` + (extname === `.html` ? `pages` : `assets`)
 );
 
-const copyStaticAssets = (done) => {
-  src(`./src/static/**/*.*`)
-    .pipe(debug({ title: 'Copy: from src - to isChanged' }))
+const copyStaticAssets = () => {
+  return src(`./src/static/**/*.*`)
+    .pipe(debug({ title: 'Copy: from src' }))
+    .pipe(cached('assetsCache'))
+    .pipe(debug({ title: 'Copy: to isChanged' }))
     .pipe(isChanged(getDest, { hasChanged: isChanged.compareContents }))
     .pipe(debug({ title: 'Copy: from isChanged - to dest' }))
     .pipe(dest(getDest));
-
-  console.log('Copied!');
-  done();
 };
 copyStaticAssets.displayName = 'copy: move assets';
 
@@ -27,18 +27,20 @@ if (!isProduction) {
   const del = require('del');
 
   const fileDeleteHandler = (filepath) => {
-    let filePathInDest;
+    let filepathInDest;
     const extname = path.extname(filepath);
 
     if (extname === '.html') {
       const basename = path.basename(filepath);
-      filePathInDest = path.resolve(`./public/pages`, basename);
+      filepathInDest = path.resolve(`./public/pages`, basename);
     } else {
       const relativePathFromSrc = path.relative(`./src/static`, filepath);
-      filePathInDest = path.resolve(`./public/assets`, relativePathFromSrc);
+      filepathInDest = path.resolve(`./public/assets`, relativePathFromSrc);
     }
 
-    del.sync(filePathInDest);
+    del.sync(filepathInDest);
+    const fullpath = path.resolve(filepath);
+    delete cached.caches.assetsCache[fullpath];
     console.log('Unlinked!');
   };
 

@@ -3,7 +3,6 @@
 const { src, dest, series, watch } = require('gulp');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
-const concat = require('gulp-concat');
 const debug = require('gulp-debug');
 const gulpIf = require('gulp-if');
 const isChanged = require('gulp-changed');
