@@ -1,7 +1,7 @@
 'use strict';
 
 const TASK_LIST = [
-  'clean',
+  // 'clean',
   'assemble',
   // 'default',
 ];

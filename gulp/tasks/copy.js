@@ -8,14 +8,18 @@ const getDest = ({ extname }) => (
   `./public/` + (extname === `.html` ? `pages` : `assets`)
 );
 
-const copyStaticAssets = () => (
+const copyStaticAssets = (done) => {
   // src(`./src/static/**/*.*`, { since: lastRun(copyStaticAssets) })
   src(`./src/static/**/*.*`)
     .pipe(debug({ title: 'Copy: from src - to isChanged' }))
     .pipe(isChanged(getDest, { hasChanged: isChanged.compareContents }))
+    // .pipe(isChanged(getDest, { hasChanged: isChanged.compareLastModifiedTime }))
     .pipe(debug({ title: 'Copy: from isChanged - to dest' }))
-    .pipe(dest(getDest))
-);
+    .pipe(dest(getDest));
+
+  console.log('Copied!');
+  done();
+};
 copyStaticAssets.displayName = 'copy: move assets';
 
 const taskList = [copyStaticAssets];
@@ -24,7 +28,7 @@ if (!isProduction) {
   const path = require('path');
   const del = require('del');
 
-  const fileDeleteHandler = (_, filepath) => {
+  const fileDeleteHandler = (filepath) => {
     let filePathInDest;
     const extname = path.extname(filepath);
 
@@ -37,11 +41,12 @@ if (!isProduction) {
     }
 
     del.sync(filePathInDest);
+    console.log('Unlinked!');
   };
 
   const appendWatcher = (done) => {
     watch(`./src/static/**/*.*`, series(copyStaticAssets))
-      .on('all', fileDeleteHandler);
+      .on('unlink', fileDeleteHandler);
     done();
   };
   appendWatcher.displayName = 'copy: append watcher';
