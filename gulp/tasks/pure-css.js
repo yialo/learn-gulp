@@ -2,8 +2,7 @@
  * NOTE:
  * Many-to-1 transformations
  * =========================
- * In modern build systems tasks of this type
- * perform internally by CSS preprocessors and JS bundlers
+ * A particular case of 'many-to-many' transformations
  */
 
 'use strict';
@@ -38,8 +37,8 @@ const processCssFiles = () => (
         sourcemaps.write('./')
     ))
     .pipe(gulpIf(isProduction, rename('all.min.css')))
-    .pipe(debug({ title: 'CSS: to isChanged' }))
-    .pipe(isChanged(DEST_PATH, { hasChanged: isChanged.compareContents }))
+    // .pipe(debug({ title: 'CSS: to isChanged' }))
+    // .pipe(isChanged(DEST_PATH, { hasChanged: isChanged.compareContents }))
     .pipe(debug({ title: 'CSS: to dest' }))
     .pipe(gulp.dest(DEST_PATH))
 );

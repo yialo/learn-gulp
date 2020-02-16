@@ -2,6 +2,10 @@
  * NOTE:
  * Many-to-many transformations
  * ============================
+ * In modern build systems tasks of this type
+ * perform internally by CSS preprocessors and JS bundlers.
+ * It's need only check output directory to result coincidence
+ * with 'gulp-changed' plugin.
  */
 
 'use strict';
@@ -33,11 +37,11 @@ const processStylusFiles = () => (
         postcss([cssnano]),
         sourcemaps.write('./')
     ))
-    // .pipe(gulpIf(isProduction, rename((file) => {
-    //   file.basename += '.min';
-    // })))
-    // .pipe(debug({ title: 'Stylus:IsChanged?' }))
-    // .pipe(isChanged(DEST_PATH, { hasChanged: isChanged.compareContents }))
+    .pipe(gulpIf(isProduction, rename((file) => {
+      file.basename += '.min';
+    })))
+    .pipe(debug({ title: 'Stylus: to isChanged' }))
+    .pipe(isChanged(DEST_PATH, { hasChanged: isChanged.compareContents }))
     .pipe(debug({ title: 'Stylus: to dest' }))
     .pipe(dest(DEST_PATH))
 );

@@ -4,7 +4,7 @@
  * ======================
  * It's good to use cache at the start of pipeline,
  * and we have to use manual 'unlink' handler in chokidar watcher
- * with sync file deletion and corresponding cache cleanup
+ * with sync file deletion and corresponding cache cleanup.
  */
 
 'use strict';
