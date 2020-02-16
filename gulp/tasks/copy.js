@@ -4,14 +4,17 @@ const { src, dest, lastRun, series, watch } = require('gulp');
 const debug = require('gulp-debug');
 const isChanged = require('gulp-changed');
 
-const defineDest = (file) => `./public` + (file.extname === `.html` ? `/pages` : `/assets`);
+const getDest = ({ extname }) => (
+  `./public/` + (extname === `.html` ? `pages` : `assets`)
+);
 
 const copyStaticAssets = () => (
-  src(`./src/static/**/*.*`, { since: lastRun(copyStaticAssets) })
-    .pipe(debug({ title: 'Copy: from src' }))
-    // .pipe(isChanged(defineDest, { hasChanged: isChanged.compareContents }))
-    .pipe(debug({ title: 'Copy: to dest' }))
-    .pipe(dest(defineDest))
+  // src(`./src/static/**/*.*`, { since: lastRun(copyStaticAssets) })
+  src(`./src/static/**/*.*`)
+    .pipe(debug({ title: 'Copy: from src - to isChanged' }))
+    .pipe(isChanged(getDest, { hasChanged: isChanged.compareContents }))
+    .pipe(debug({ title: 'Copy: from isChanged - to dest' }))
+    .pipe(dest(getDest))
 );
 copyStaticAssets.displayName = 'copy: move assets';
 

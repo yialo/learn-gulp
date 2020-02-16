@@ -8,7 +8,7 @@ const pureCss = require('./pure-css');
 const stylus = require('./stylus');
 
 const assemble = series(
-    clean,
+    // clean,
     parallel(
         copy,
         // pureCss,
