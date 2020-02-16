@@ -19,8 +19,8 @@ const DEST_PATH = `./public/assets/css`;
 
 const processCssFiles = () => (
   gulp.src(SRC_PATH, { since: gulp.lastRun(processCssFiles) })
-    // .pipe(debug({ title: 'CSS: from src' }))
-    // .pipe(cached('cssCache'))
+    .pipe(debug({ title: 'CSS: from src' }))
+    .pipe(cached('cssCache'))
     // .pipe(gulpIf(!isProduction, sourcemaps.init()))
     .pipe(debug({ title: 'CSS: to postcss' }))
     .pipe(postcss([autoprefixer]))

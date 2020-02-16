@@ -9,11 +9,9 @@ const getDest = ({ extname }) => (
 );
 
 const copyStaticAssets = (done) => {
-  // src(`./src/static/**/*.*`, { since: lastRun(copyStaticAssets) })
   src(`./src/static/**/*.*`)
     .pipe(debug({ title: 'Copy: from src - to isChanged' }))
     .pipe(isChanged(getDest, { hasChanged: isChanged.compareContents }))
-    // .pipe(isChanged(getDest, { hasChanged: isChanged.compareLastModifiedTime }))
     .pipe(debug({ title: 'Copy: from isChanged - to dest' }))
     .pipe(dest(getDest));
 
