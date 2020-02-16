@@ -1,9 +1,17 @@
+/**
+ * NOTE:
+ * 1-to-1 transformations
+ * ======================
+ * It's good to use cache at the start of pipeline,
+ * and we have to use manual 'unlink' handler in chokidar watcher
+ * with sync file deletion and corresponding cache cleanup
+ */
+
 'use strict';
 
 const { src, dest, lastRun, series, watch } = require('gulp');
 const cached = require('gulp-cached');
 const debug = require('gulp-debug');
-const isChanged = require('gulp-changed');
 
 const getDest = ({ extname }) => (
   `./public/` + (extname === `.html` ? `pages` : `assets`)
@@ -13,9 +21,7 @@ const copyStaticAssets = () => {
   return src(`./src/static/**/*.*`)
     .pipe(debug({ title: 'Copy: from src' }))
     .pipe(cached('assetsCache'))
-    .pipe(debug({ title: 'Copy: to isChanged' }))
-    .pipe(isChanged(getDest, { hasChanged: isChanged.compareContents }))
-    .pipe(debug({ title: 'Copy: from isChanged - to dest' }))
+    .pipe(debug({ title: 'Copy: to dest' }))
     .pipe(dest(getDest));
 };
 copyStaticAssets.displayName = 'copy: move assets';
@@ -41,7 +47,6 @@ if (!isProduction) {
     del.sync(filepathInDest);
     const fullpath = path.resolve(filepath);
     delete cached.caches.assetsCache[fullpath];
-    console.log('Unlinked!');
   };
 
   const appendWatcher = (done) => {

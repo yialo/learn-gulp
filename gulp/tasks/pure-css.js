@@ -1,3 +1,11 @@
+/**
+ * NOTE:
+ * Many-to-1 transformations
+ * =========================
+ * In modern build systems tasks of this type
+ * perform internally by CSS preprocessors and JS bundlers
+ */
+
 'use strict';
 
 const gulp = require('gulp');

@@ -11,8 +11,8 @@ const assemble = series(
     clean,
     parallel(
         // copy,
-        pureCss,
-        // stylus,
+        // pureCss,
+        stylus,
     ),
 );
 
