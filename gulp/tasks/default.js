@@ -2,15 +2,11 @@
 
 const { series } = require('gulp');
 
-const assemble = require('./assemble');
+const assemble = require('./assemble.js');
+const copy = require('./copy.js');
+const serve = require('./serve.js');
 
-// TODO: add real 'serve' task
-const serve = (done) => {
-  console.log(`It's a stub for 'serve' task`);
-  done();
-};
-
-const taskList = [assemble];
+const taskList = [copy, assemble];
 
 if (process.env.NODE_ENV === 'development') {
   taskList.push(serve);
