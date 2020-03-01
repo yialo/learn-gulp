@@ -8,7 +8,6 @@ const serve = (done) => {
   server.init({
     server: {
       baseDir: pathEnum.PUBLIC,
-      index: 'pages/index.html'
     },
     port: 3000,
     notify: false,
