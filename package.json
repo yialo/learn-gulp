@@ -37,10 +37,10 @@
     "url": "git+https://github.com/yialo/learn-gulp.git"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production npm run default",
-    "default": "npm run gulp -- default",
-    "dev": "cross-env NODE_ENV=development npm run default",
     "gulp": "gulp --gulpfile ./gulp/index.js --cwd ./",
+    "default": "npm run gulp -- default",
+    "build": "cross-env NODE_ENV=production npm run default",
+    "dev": "cross-env NODE_ENV=development npm run default",
     "nodemon": "nodemon --config ./nodemon.json",
     "nodemon:dev": "npm run nodemon -- dev",
     "nodemon:gulp": "npm run nodemon -- gulp",

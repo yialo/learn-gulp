@@ -1,12 +1,8 @@
 'use strict';
 
-const TASK_LIST = [
-  // 'clean',
-  'assemble',
-  // 'default',
-];
+const TASK_LIST = ['default'];
 
-const getTask = (taskFileName) => require(`./tasks/${taskFileName}.js`);
+const getTask = (taskFilenameBase) => require(`./tasks/${taskFilenameBase}.js`);
 
 const getTaskEnum = (taskList) => taskList
   .reduce((result, taskName) => ({
