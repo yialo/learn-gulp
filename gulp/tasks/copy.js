@@ -13,9 +13,13 @@ const { src, dest, lastRun, series, watch } = require('gulp');
 const cached = require('gulp-cached');
 const debug = require('gulp-debug');
 
-const getDest = ({ extname }) => (
-  `./public/` + (extname === `.html` ? `pages` : `assets`)
-);
+const getDest = (file) => {
+  const isHtml = (file.extname === '.html');
+  if (isHtml) {
+    file.base += '/pages';
+  }
+  return `./public${isHtml ? '' : '/assets'}`;
+};
 
 const copyStaticAssets = () => {
   return src(`./src/static/**/*.*`)
@@ -38,7 +42,7 @@ if (!isProduction) {
 
     if (extname === '.html') {
       const basename = path.basename(filepath);
-      filepathInDest = path.resolve(`./public/pages`, basename);
+      filepathInDest = path.resolve(`./public`, basename);
     } else {
       const relativePathFromSrc = path.relative(`./src/static`, filepath);
       filepathInDest = path.resolve(`./public/assets`, relativePathFromSrc);
