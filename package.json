@@ -4,10 +4,8 @@
     "last 5 versions",
     "ie >= 11"
   ],
-  "description": "Here I practice in making of advanced Gulp.js configuration",
-  "devDependencies": {
+  "dependencies": {
     "autoprefixer": "9.7.4",
-    "browser-sync": "2.26.7",
     "cross-env": "7.0.0",
     "cssnano": "4.1.10",
     "del": "5.1.0",
@@ -20,7 +18,11 @@
     "gulp-postcss": "8.0.0",
     "gulp-rename": "2.0.0",
     "gulp-sourcemaps": "2.6.5",
-    "gulp-stylus": "2.7.0",
+    "gulp-stylus": "2.7.0"
+  },
+  "description": "Here I practice in making of advanced Gulp.js configuration",
+  "devDependencies": {
+    "browser-sync": "2.26.7",
     "nodemon": "2.0.2"
   },
   "keywords": [
@@ -35,13 +37,13 @@
     "url": "git+https://github.com/yialo/learn-gulp.git"
   },
   "scripts": {
-    "gulp": "gulp --gulpfile ./gulp/index.js --cwd ./",
+    "build": "cross-env NODE_ENV=production npm run default",
     "default": "npm run gulp -- default",
     "dev": "cross-env NODE_ENV=development npm run default",
-    "build": "cross-env NODE_ENV=production npm run default",
+    "gulp": "gulp --gulpfile ./gulp/index.js --cwd ./",
     "nodemon": "nodemon --config ./nodemon.json",
-    "nodemon:gulp": "npm run nodemon -- gulp",
     "nodemon:dev": "npm run nodemon -- dev",
+    "nodemon:gulp": "npm run nodemon -- gulp",
     "nodemon:prod": "npm run nodemon -- build",
     "start": "npm run nodemon:dev"
   },
