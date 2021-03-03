@@ -1,5 +1,17 @@
 {
-  "author": "Aleksei Arro",
+  "name": "learn_gulp",
+  "private": true,
+  "scripts": {
+    "gulp": "gulp --gulpfile ./gulp/index.js --cwd ./",
+    "default": "npm run gulp -- default",
+    "build": "cross-env NODE_ENV=production npm run default",
+    "dev": "cross-env NODE_ENV=development npm run default",
+    "nodemon": "nodemon --config ./nodemon.json",
+    "nodemon:dev": "npm run nodemon -- dev",
+    "nodemon:gulp": "npm run nodemon -- gulp",
+    "nodemon:prod": "npm run nodemon -- build",
+    "start": "npm run nodemon:dev"
+  },
   "browserslist": [
     "last 5 versions",
     "ie >= 11"
@@ -25,27 +37,8 @@
     "gulp-sourcemaps": "2.6.5",
     "nodemon": "2.0.2"
   },
-  "keywords": [
-    "gulp",
-    "node"
-  ],
-  "license": "ISC",
-  "main": "gulpfile.js",
-  "name": "learn-gulp",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yialo/learn-gulp.git"
-  },
-  "scripts": {
-    "gulp": "gulp --gulpfile ./gulp/index.js --cwd ./",
-    "default": "npm run gulp -- default",
-    "build": "cross-env NODE_ENV=production npm run default",
-    "dev": "cross-env NODE_ENV=development npm run default",
-    "nodemon": "nodemon --config ./nodemon.json",
-    "nodemon:dev": "npm run nodemon -- dev",
-    "nodemon:gulp": "npm run nodemon -- gulp",
-    "nodemon:prod": "npm run nodemon -- build",
-    "start": "npm run nodemon:dev"
-  },
-  "version": "1.0.1"
+  }
 }
